@@ -1,0 +1,42 @@
+#iframe{
+  width: 100%;
+  height: 100vh;
+  border: 0;
+}/*设置iframe*/
+
+#btn,input[type="submit"], input[type="button"]{
+  width: 108px;
+  height: 44px;
+  background-color: #4569FF;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.05em;
+  opacity:0.8;/*设置透明度*/
+}
+
+#btn:active {
+  border: 2px solid blue;
+}
+
+#nameList{
+    background-color: #fff;
+    border: 5px solid rgba(230,230,230);
+    padding-left: 1em;
+    width: 23em;
+    height: 18em;
+    margin-bottom: 1.2em;
+    }
+  
+
+input[type="text"] {
+    background-color: #fff;
+    border: 5px solid rgb(230,230,230);
+    padding-left: 1em;
+    width: 23em;
+    height: 2.8em;
+    margin-bottom: 1.2em;
+}
+
+
+
