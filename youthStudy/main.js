@@ -9,7 +9,7 @@ var tableapi = "http://dxx.ahyouth.org.cn/api/peopleRankList"
 
 function submit(){
 	
-url = document.getElementById("iframe").contentWindow.location.href;
+url = 'http://dxx.ahyouth.org.cn/#/pages/class/ranking/ranking?table_name=reason_stage239&level1=%25E7%259B%25B4%25E5%25B1%259E%25E9%25AB%2598%25E6%25A0%25A1&level2=%25E5%2590%2588%25E8%2582%25A5%25E5%25B7%25A5%25E4%25B8%259A%25E5%25A4%25A7%25E5%25AD%25A6&level3=%25E7%2594%25B5%25E6%25B0%2594%25E4%25B8%258E%25E8%2587%25AA%25E5%258A%25A8%25E5%258C%2596%25E5%25B7%25A5%25E7%25A8%258B%25E5%25AD%25A6%25E9%2599%25A2%25E5%259B%25A2%25E5%25A7%2594&level4=%25E7%25A0%2594%25E7%25A9%25B6%25E7%2594%259F2021%25E7%25BA%25A738%25E7%258F%25AD%25E5%259B%25A2%25E6%2594%25AF%25E9%2583%25A8';
 levels = getLevels(url)
 if(url.search("level4")!=-1){
   document.getElementById("iframe").style = "display:none"
