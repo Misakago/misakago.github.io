@@ -1,22 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>首页</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
-  <script src="main.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>青年大学习助手</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
+<body>
+    <div id="wrapper">
+        <div id="title">《用户须知》</div>
+        <p id="paragraph">
+            <br>
+            &nbsp;&nbsp;软件可查询的内容包括但不限于：<br>
+            （一）组织各期已（未）的人员名单<br>
+            （二）由（一）计算的其他数据<br><br>
 
-<div id="float" style="position: fixed ! important; right: 5vw; top: 70vh;"></div>
+            &nbsp;&nbsp;需要提供的信息：<br>
+            （一）用户所在的组织<br>
+            （二）组织所有人员名单<br><br>
 
-<div id="submit"><form method='post' id='form'></form></div>
+            &nbsp;&nbsp;开发者承诺：<br>
+            （一）软件免费<br>
+            （二）软件不会采集任何用户信息，所有信息均保存在本地<br>
+            （三）软件旨在提高团支书工作效率，反对强制性青年大学习<br><br>
 
-<iframe src="http://dxx.ahyouth.org.cn/index.html?t=1#/pages/class/ranking/ranking?table_name=reason_stage215&level1=%E7%9B%B4%E5%B1%9E%E9%AB%98%E6%A0%A1" id="iframe" onload="createButton('float')"></iframe>
-
-
+            &nbsp;&nbsp;用户需知：<br>
+            （一）本软件只有Android版本<br>
+            （二）用户需自行判断软件来源是否正规<br>
+            （三）用户使用本软件造成的一切人际关系问题与开发者无关<br><br>
+        </p>
+        <div id="agreement">
+            <input type="checkbox" id="checkbox"/>我已阅读并同意以上协议
+            <input type="submit" value="确&nbsp;&nbsp;&nbsp;&nbsp;定" onclick='agree()' />
+        </div>
+    </div>
+    <div id="info"></div>
+    <script src="main.js"></script>
 </body>
 
 </html>
