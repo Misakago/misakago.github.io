@@ -2,6 +2,7 @@ let main = document.getElementById('main');
 let wrapper = document.getElementById('wrapper');
 let level1 = ['level1', '地市', '直属高校', '直属企业团委', '省直团工委', '省国资委团工委', '独立院校', '各直接联系组织', '系统团委', '其他团组织'];
 let base_url = 'http://dxx.ahyouth.org.cn/api/peopleRankStage?table_name=reason_stage239';
+let saved_url = ''
 let table_name = {};
 let now = [];
 let all = [];
@@ -20,8 +21,8 @@ window.onload = function () {
     let url = 'http://dxx.ahyouth.org.cn/api/peopleRankList';
     request.open('GET', url);
     request.send();
-    
-    let saved_url = get_cookie('url');
+
+    saved_url = get_cookie('url');
     let table_name1 = get_cookie('table_name');
 
     let request1 = new XMLHttpRequest();
@@ -29,14 +30,26 @@ window.onload = function () {
         let xhr = evt.target;
         if (xhr.status === 200) {
             let data = JSON.parse(xhr.responseText)['list']['list'];
-            for (let i = 1; i < data.length; i++){
+            for (let i = 1; i < data.length; i++) {
                 all.push(data[i]['username']);
             }
         }
     };
-    let url1 = saved_url.replace('reason_stage239',table_name1);
+    let url1 = saved_url.replace('reason_stage239', table_name1);
     request1.open('GET', url1);
     request1.send();
+
+    //判断是否显示协议
+    if (get_cookie('isagree') === 'true') {
+        wrapper.remove();
+        if (get_cookie('url') === '') {
+            document.getElementById('info').style.display = 'block';
+            add_level(level1);
+        } else {
+            document.getElementById('menu').style.display = 'block';
+        }
+    }
+}
 
 //复制到剪贴板
 function copyToClip(contentArray, message) {
@@ -44,7 +57,7 @@ function copyToClip(contentArray, message) {
     for (var i = 0; i < contentArray.length; i++) {
         contents += contentArray[i] + "\n";
     }
-    contents += '嗨，我正在使用青年大学习助手，你也来试试吧！\n下载链接：https://consider.lanzoub.com/is4VH0miy0di'
+    contents += '嗨，我正在使用团支书小助手，你也来试试吧！\n下载链接：https://consider.lanzoub.com/is4VH0miy0di'
     const textarea = document.createElement('textarea');
     textarea.value = contents;
     document.body.appendChild(textarea);
@@ -57,19 +70,6 @@ function copyToClip(contentArray, message) {
         alert("复制成功！\n期待您的推荐！");
     } else {
         alert(message);
-    }
-}
-    
-    //判断是否显示协议
-    if (get_cookie('isagree') === 'true') {
-        wrapper.remove();
-        if (get_cookie('url') === ''){
-            document.getElementById('info').style.display = 'block';
-            add_level(level1);
-        }else{
-            document.getElementById('menu').style.display = 'block';
-            }
-        }
     }
 }
 
@@ -85,49 +85,49 @@ function get_cookie(cname) {
 }
 
 //清除cookie
-function clear_cookie(){
+function clear_cookie() {
     document.cookie = "isagree=false";
     location.reload();
 }
 
 //移除子节点
-function empty (e) {
+function empty(e) {
     while (e.firstChild) {
-        e.removeChild (e.firstChild);
+        e.removeChild(e.firstChild);
     }
 }
 
 //显示结果
-function show_result(){
-    let saved_url = get_cookie('url');
-    let request2 = new XMLHttpRequest();
-    request2.onload = function (evt) {
+function show_result() {
+    let request = new XMLHttpRequest();
+    request.onload = function (evt) {
         let xhr = evt.target;
         if (xhr.status === 200) {
             data = JSON.parse(xhr.responseText)['list']['list'];
-            for (let i = 1; i < data.length; i++){
+            for (let i = 1; i < data.length; i++) {
                 now.push(data[i]['username']);
             }
-            let minus = arrayAminusB(all,now);
+            let minus = arrayAminusB(all, now);
             result = document.getElementById('result');
             empty(result);
-            for(let i = 0; i < minus.length; i++){
+            for (let i = 0; i < minus.length; i++) {
                 let name = document.createElement('p');
                 name.innerHTML = minus[i];
-                result.appendChild(name);           
+                result.appendChild(name);
             }
-            copyToClip(minus);            
-    };
-    let url2 = url.replace('reason_stage239',Object.keys(table_name)[0]);
-    request2.open('GET', url2);
-    request2.send();
+            copyToClip(minus);
+        };
+        let url2 = url.replace('reason_stage239', Object.keys(table_name)[0]);
+        request2.open('GET', url2);
+        request2.send();
 
+    }
 }
 
 //求差集
 function arrayAminusB(arrA, arrB) {
     return arrA.filter(v => !arrB.includes(v));
-}  
+}
 
 // 同意协议             
 function agree() {
@@ -154,6 +154,7 @@ function agree() {
     }
 
 }
+
 // 添加level
 function add_level(level) {
     let level_tag = document.getElementById(`${level[0]}`);
@@ -200,6 +201,7 @@ document.getElementById('level2').addEventListener('click', evt => {
                 for (key in table_name) {
                     get_num(key);
                 }
+                alert('请选择全员完成的一期！')
             } else {
                 let level3 = ['level3'];
                 for (let i = 1; i < data.length; i++) {
@@ -231,6 +233,7 @@ document.getElementById('level3').addEventListener('click', evt => {
                 for (key in table_name) {
                     get_num(key);
                 }
+                alert('请选择全员完成的一期！')
             } else {
                 let level4 = ['level4'];
                 for (let i = 1; i < data.length; i++) {
@@ -262,6 +265,7 @@ document.getElementById('level4').addEventListener('click', evt => {
                 for (key in table_name) {
                     get_num(key);
                 }
+                alert('请选择全员完成的一期！')
             } else {
                 let level5 = ['level5'];
                 for (let i = 1; i < data.length; i++) {
@@ -289,11 +293,12 @@ document.getElementById('level5').addEventListener('click', evt => {
         let xhr = evt.target;
         if (xhr.status === 200) {
             data = JSON.parse(xhr.responseText)['list']['list']
-                for (key in table_name) {
-                    get_num(key);
-                }
-            } 
+            for (key in table_name) {
+                get_num(key);
+            }
+            alert('请选择全员完成的一期！')
         }
+    }
     let url = base_url + `&level5=${evt.target.innerHTML}`;
     base_url = url;
     let navigation = document.getElementById('navigation');
