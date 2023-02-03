@@ -29,6 +29,13 @@ window.onload = function () {
         }else{
             document.getElementById('menu').style.display = 'block';
             show_result();
+            let minus = arrayAminusB(all,now);
+            result = document.getElementById('result');
+            for(let i = 0; i < minus.length; i++){
+                let name = document.createElement('p');
+                name.innerHTML = minus[i];
+                result.appendChild(name);
+            }
         }
     }
 }
@@ -82,14 +89,6 @@ function show_result(){
     let url2 = url.replace('reason_stage239',Object.keys(table_name)[0]);
     request2.open('GET', url2);
     request2.send();
-
-    let minus = arrayAminusB(all,now);
-    result = document.getElementById('result');
-    for(let i = 0; i < minus.length; i++){
-        let name = document.createElement('p');
-        name.innerHTML = minus[i];
-        result.appendChild(name);
-    }
 
 }
 
