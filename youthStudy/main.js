@@ -2,7 +2,6 @@ let main = document.getElementById('main');
 let wrapper = document.getElementById('wrapper');
 let level1 = ['level1', '地市', '直属高校', '直属企业团委', '省直团工委', '省国资委团工委', '独立院校', '各直接联系组织', '系统团委', '其他团组织'];
 let base_url = 'http://dxx.ahyouth.org.cn/api/peopleRankStage?table_name=reason_stage239';
-let saved_url = ''
 let table_name = {};
 let now = [];
 let all = [];
@@ -22,7 +21,7 @@ window.onload = function () {
     request.open('GET', url);
     request.send();
 
-    saved_url = get_cookie('url');
+    let saved_url = get_cookie('url');
     let table_name1 = get_cookie('table_name');
 
     let request1 = new XMLHttpRequest();
@@ -100,6 +99,7 @@ function empty(e) {
 //显示结果
 function show_result() {
     let request = new XMLHttpRequest();
+    let saved_url = get_cookie('url');
     request.onload = function (evt) {
         let xhr = evt.target;
         if (xhr.status === 200) {
