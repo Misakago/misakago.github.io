@@ -28,7 +28,6 @@ window.onload = function () {
             add_level(level1);
         }else{
             document.getElementById('menu').style.display = 'block';
-            show_result();
         }
     }
 }
@@ -46,7 +45,7 @@ function get_cookie(cname) {
 
 //清除cookie
 function clear_cookie(){
-    document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    document.cookie = "isagree=false";
     location.reload();
 }
 
