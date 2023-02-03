@@ -1,6 +1,6 @@
 let main = document.getElementById('main');
 let wrapper = document.getElementById('wrapper');
-let level1 = ['level1', '地市', '直属高校', '直属企业团委', '省直团工委', '省国资委团工委', '独立院校', '各直接联系组织', '系统团委', '其他团组织'];
+let level1 = ['level1', '团省委','地市', '直属高校', '直属企业团委', '省直团工委', '省国资委团工委', '独立院校', '各直接联系组织', '系统团委', '其他团组织'];
 let base_url = 'http://dxx.ahyouth.org.cn/api/peopleRankStage?table_name=reason_stage239';
 let table_name = {};
 let now = [];
@@ -176,7 +176,7 @@ document.getElementById('level1').addEventListener('click', evt => {
         if (xhr.status === 200) {
             data = JSON.parse(xhr.responseText)['list']['list'];
             let level2 = ['level2'];
-            for (let i = 1; i < data.length; i++) {
+            for (let i = 0; i < data.length; i++) {
                 level2.push(data[i]['level2']);
             }
             add_level(level2);
@@ -207,7 +207,7 @@ document.getElementById('level2').addEventListener('click', evt => {
                 alert('请选择全员完成的一期！')
             } else {
                 let level3 = ['level3'];
-                for (let i = 1; i < data.length; i++) {
+                for (let i = 0; i < data.length; i++) {
                     level3.push(data[i]['level3']);
                 }
                 add_level(level3);
@@ -239,7 +239,7 @@ document.getElementById('level3').addEventListener('click', evt => {
                 alert('请选择全员完成的一期！')
             } else {
                 let level4 = ['level4'];
-                for (let i = 1; i < data.length; i++) {
+                for (let i = 0; i < data.length; i++) {
                     level4.push(data[i]['level4']);
                 }
                 add_level(level4);
@@ -271,7 +271,7 @@ document.getElementById('level4').addEventListener('click', evt => {
                 alert('请选择全员完成的一期！')
             } else {
                 let level5 = ['level5'];
-                for (let i = 1; i < data.length; i++) {
+                for (let i = 0; i < data.length; i++) {
                     level5.push(data[i]['level5'])
                 }
                 add_level(level5);
