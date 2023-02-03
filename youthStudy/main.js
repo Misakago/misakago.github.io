@@ -117,7 +117,7 @@ function show_result() {
             }
             copyToClip(minus);
         };
-        let url2 = url.replace('reason_stage239', Object.keys(table_name)[0]);
+        let url2 = saved_url.replace('reason_stage239', Object.keys(table_name)[0]);
         request2.open('GET', url2);
         request2.send();
 
