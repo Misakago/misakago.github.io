@@ -89,7 +89,6 @@ function show_result(){
         name.innerHTML = minus[i];
         result.appendChild(name);
     }
-    document.write(document.cookie);
 
 }
 
