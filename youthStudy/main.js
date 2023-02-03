@@ -39,14 +39,10 @@ window.onload = function () {
     request1.send();
 
     //判断是否显示协议
-    if (get_cookie('isagree') === 'true') {
+    if (get_cookie('isagree') == 'true') {
         wrapper.remove();
-        if (get_cookie('url') === undefine) {
-            document.getElementById('info').style.display = 'block';
-            add_level(level1);
-        } else {
-            document.getElementById('menu').style.display = 'block';
-        }
+    } else {
+        document.getElementById('menu').style.display = 'block';
     }
 }
 
