@@ -11,7 +11,7 @@
 
 <body>
     <div id="wrapper">
-        <div id="title">《用户须知》</div>
+        <div id="title">《软件协议》</div>
         <p id="paragraph">
             <br>
             &nbsp;&nbsp;软件可查询的内容包括但不限于：<br>
@@ -33,11 +33,24 @@
             （三）用户使用本软件造成的一切人际关系问题与开发者无关<br><br>
         </p>
         <div id="agreement">
-            <input type="checkbox" id="checkbox"/>我已阅读并同意以上协议
+            <input type="checkbox" id="checkbox" checked = true/>我已阅读并同意以上协议
             <input type="submit" value="确&nbsp;&nbsp;&nbsp;&nbsp;定" onclick='agree()' />
         </div>
     </div>
-    <div id="info"></div>
+    <div id="info" class="show" style="display: none;">
+        <div id="navigation" class="show"></div>
+        <div id="level1"></div>
+        <div id="level2"></div>
+        <div id="level3"></div>
+        <div id="level4"></div>
+        <div id="level5"></div>
+        <div id="reason"></div>
+        <div class="show" onclick="location.reload();">选错点此刷新</div>
+    </div>
+    <div id="menu" class="show" style="display: none;">
+        <div id="result"></div>
+        <div class="show" onclick="clear_cookie()">清除cookie</div>
+    </div>
     <script src="main.js"></script>
 </body>
 
