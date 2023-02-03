@@ -66,7 +66,7 @@ function copyToClip(contentArray, message) {
     }
     document.body.removeChild(textarea);
     if (message == null) {
-        alert("复制成功！\n期待您的推荐！");
+        alert("未完成名单已复制到剪贴板！\n期待您的推荐！");
     } else {
         alert(message);
     }
