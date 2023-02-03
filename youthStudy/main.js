@@ -108,7 +108,7 @@ function show_result() {
                 now.push(data[i]['username']);
             }
             let minus = arrayAminusB(all, now);
-            if (minus === []){
+            if (minus.length === 0){
                 alert('全员完成！')
             }else{
                 result = document.getElementById('result');
