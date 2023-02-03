@@ -28,6 +28,7 @@ window.onload = function () {
             add_level(level1);
         }else{
             document.getElementById('menu').style.display = 'block';
+            show_result();
         }
     }
 }
