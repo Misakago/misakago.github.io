@@ -1,33 +1,3 @@
-#wrapper {
-    width: 80%;
-    height: 500px;
-    margin: 50px auto;
-    background: white;
-}
-
-#wrapper #title {
-    font-size: large;
-    width: 80%;
-    height: 30px;
-    margin: 0 auto;
-    line-height: 30px;
-    text-align: center;
-    background: #fff;
-}
-
-#wrapper #paragraph {
-    width: 80%;
-    height: 400px;
-    margin: 0 auto;
-    overflow: auto;
-    background-color: #fff;
-}
-
-#wrapper #agreement {
-    margin: 20px auto;
-    text-align: center;
-}
-
 html {
     background: #eee
 }
