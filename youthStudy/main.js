@@ -38,11 +38,14 @@ window.onload = function () {
     request1.open('GET', url1);
     request1.send();
 
-    //判断是否显示协议
-    if (get_cookie('isagree') == 'true') {
+    if (get_cookie('isagree') === 'true') {
         wrapper.remove();
-    } else {
-        document.getElementById('menu').style.display = 'block';
+        if (get_cookie('url') === '') {
+            document.getElementById('info').style.display = 'block';
+            add_level(level1);
+        } else {
+            document.getElementById('menu').style.display = 'block';
+        }
     }
 }
 
