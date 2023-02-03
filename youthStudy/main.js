@@ -104,7 +104,7 @@ function show_result() {
         let xhr = evt.target;
         if (xhr.status === 200) {
             data = JSON.parse(xhr.responseText)['list']['list'];
-            for (let i = 1; i < data.length; i++) {
+            for (let i = 0; i < data.length; i++) {
                 now.push(data[i]['username']);
             }
             let minus = arrayAminusB(all, now);
