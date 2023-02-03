@@ -108,14 +108,18 @@ function show_result() {
                 now.push(data[i]['username']);
             }
             let minus = arrayAminusB(all, now);
-            result = document.getElementById('result');
-            empty(result);
-            for (let i = 0; i < minus.length; i++) {
-                let name = document.createElement('p');
-                name.innerHTML = minus[i];
-                result.appendChild(name);
+            if (minus === []){
+                alert('全员完成！')
+            }else{
+                result = document.getElementById('result');
+                empty(result);
+                for (let i = 0; i < minus.length; i++) {
+                    let name = document.createElement('p');
+                    name.innerHTML = minus[i];
+                    result.appendChild(name);
+                }
+                copyToClip(minus);
             }
-            copyToClip(minus);
         };
         let url2 = saved_url.replace('reason_stage239', Object.keys(table_name)[0]);
         request2.open('GET', url2);
