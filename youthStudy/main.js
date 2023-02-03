@@ -20,6 +20,46 @@ window.onload = function () {
     let url = 'http://dxx.ahyouth.org.cn/api/peopleRankList';
     request.open('GET', url);
     request.send();
+    
+    let saved_url = get_cookie('url');
+    let table_name1 = get_cookie('table_name');
+
+    let request1 = new XMLHttpRequest();
+    request1.onload = function (evt) {
+        let xhr = evt.target;
+        if (xhr.status === 200) {
+            let data = JSON.parse(xhr.responseText)['list']['list'];
+            for (let i = 1; i < data.length; i++){
+                all.push(data[i]['username']);
+            }
+        }
+    };
+    let url1 = saved_url.replace('reason_stage239',table_name1);
+    request1.open('GET', url1);
+    request1.send();
+
+//复制到剪贴板
+function copyToClip(contentArray, message) {
+    var contents = "";
+    for (var i = 0; i < contentArray.length; i++) {
+        contents += contentArray[i] + "\n";
+    }
+    contents += '嗨，我正在使用青年大学习助手，你也来试试吧！\n下载链接：https://consider.lanzoub.com/is4VH0miy0di'
+    const textarea = document.createElement('textarea');
+    textarea.value = contents;
+    document.body.appendChild(textarea);
+    textarea.select();
+    if (document.execCommand('copy')) {
+        document.execCommand('copy');
+    }
+    document.body.removeChild(textarea);
+    if (message == null) {
+        alert("复制成功！\n期待您的推荐！");
+    } else {
+        alert(message);
+    }
+}
+    
     //判断是否显示协议
     if (get_cookie('isagree') === 'true') {
         wrapper.remove();
@@ -28,13 +68,6 @@ window.onload = function () {
             add_level(level1);
         }else{
             document.getElementById('menu').style.display = 'block';
-            show_result();
-            let minus = arrayAminusB(all,now);
-            result = document.getElementById('result');
-            for(let i = 0; i < minus.length; i++){
-                let name = document.createElement('p');
-                name.innerHTML = minus[i];
-                result.appendChild(name);
             }
         }
     }
@@ -57,25 +90,16 @@ function clear_cookie(){
     location.reload();
 }
 
+//移除子节点
+function empty (e) {
+    while (e.firstChild) {
+        e.removeChild (e.firstChild);
+    }
+}
+
 //显示结果
 function show_result(){
-    let url = get_cookie('url');
-    let table_name1 = get_cookie('table_name');
-
-    let request1 = new XMLHttpRequest();
-    request1.onload = function (evt) {
-        let xhr = evt.target;
-        if (xhr.status === 200) {
-            let data = JSON.parse(xhr.responseText)['list']['list'];
-            for (let i = 1; i < data.length; i++){
-                all.push(data[i]['username']);
-            }
-        }
-    };
-    let url1 = url.replace('reason_stage239',table_name1);
-    request1.open('GET', url1);
-    request1.send();
-
+    let saved_url = get_cookie('url');
     let request2 = new XMLHttpRequest();
     request2.onload = function (evt) {
         let xhr = evt.target;
@@ -84,7 +108,15 @@ function show_result(){
             for (let i = 1; i < data.length; i++){
                 now.push(data[i]['username']);
             }
-        }
+            let minus = arrayAminusB(all,now);
+            result = document.getElementById('result');
+            empty(result);
+            for(let i = 0; i < minus.length; i++){
+                let name = document.createElement('p');
+                name.innerHTML = minus[i];
+                result.appendChild(name);           
+            }
+            copyToClip(minus);            
     };
     let url2 = url.replace('reason_stage239',Object.keys(table_name)[0]);
     request2.open('GET', url2);
