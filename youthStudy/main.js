@@ -37,15 +37,11 @@ window.onload = function () {
     let url1 = saved_url.replace('reason_stage239', table_name1);
     request1.open('GET', url1);
     request1.send();
-
-    if (get_cookie('isagree') === 'true') {
-        wrapper.remove();
-        if (get_cookie('url') === '') {
-            document.getElementById('info').style.display = 'block';
-            add_level(level1);
-        } else {
-            document.getElementById('menu').style.display = 'block';
-        }
+    if (get_cookie('url') === '') {
+        document.getElementById('info').style.display = 'block';
+        add_level(level1);
+    } else {
+        document.getElementById('menu').style.display = 'block';
     }
 }
 
@@ -84,7 +80,7 @@ function get_cookie(cname) {
 
 //清除cookie
 function clear_cookie() {
-    document.cookie = "isagree=false";
+    document.cookie = "url=";
     location.reload();
 }
 
@@ -131,31 +127,6 @@ function arrayAminusB(arrA, arrB) {
     return arrA.filter(v => !arrB.includes(v));
 }
 
-// 同意协议             
-function agree() {
-    checkbox = document.getElementById('checkbox');
-    if (checkbox.checked) {
-
-        let opacity = 1;
-        let timer = null;
-        timer = setInterval(function () {
-            opacity = opacity - 0.05;
-            if (opacity > 0) {
-                document.getElementById('wrapper').style.opacity = opacity;
-            } else {
-                document.getElementById('wrapper').style.opacity = 0;
-                wrapper.remove();
-                document.cookie = "isagree=true";
-                document.getElementById('info').style.display = 'block';
-                add_level(level1);
-                clearInterval(timer);
-            }
-        }, 20);
-    } else {
-        alert('请勾选“我已阅读并同意以上协议”！')
-    }
-
-}
 
 // 添加level
 function add_level(level) {
