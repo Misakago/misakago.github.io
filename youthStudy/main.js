@@ -276,7 +276,8 @@ document.getElementById('level5').addEventListener('click', evt => {
 
 //reason点击事件
 document.getElementById('reason').addEventListener('click', evt => {
-    document.cookie = `url=${base_url};table_name=${evt.target.id}`;
+    document.cookie = `url=${base_url}`;
+    document.cookie = `table_name=${evt.target.id}`;
     alert('选择成功！');
     location.reload();
 })
