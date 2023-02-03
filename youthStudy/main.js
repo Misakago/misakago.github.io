@@ -121,11 +121,10 @@ function show_result() {
                 copyToClip(minus);
             }
         };
-        let url2 = saved_url.replace('reason_stage239', Object.keys(table_name)[0]);
-        request.open('GET', url2);
-        request.send();
-
     }
+    let url2 = saved_url.replace('reason_stage239', Object.keys(table_name)[0]);
+    request.open('GET', url2);
+    request.send();
 }
 
 //求差集
