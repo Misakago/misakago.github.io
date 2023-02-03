@@ -122,8 +122,8 @@ function show_result() {
             }
         };
         let url2 = saved_url.replace('reason_stage239', Object.keys(table_name)[0]);
-        request2.open('GET', url2);
-        request2.send();
+        request.open('GET', url2);
+        request.send();
 
     }
 }
