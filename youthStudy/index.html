@@ -11,7 +11,7 @@
 
 <body>
     <div id="info" class="show" style="display: none;">
-        <div id="navigation" class="show"></div>
+        <div id="navigation" class="show">组织导航/</div>
         <div id="level1"></div>
         <div id="level2"></div>
         <div id="level3"></div>
@@ -22,8 +22,9 @@
     </div>
     <div id="menu" class="show" style="display: none;">
         <div id="result"></div>
-        <div class="show" onclick="show_result()">查询(自动查询最新一期结果)</div>
-        <div class="show" onclick="clear_cookie()">清除cookie(选错了再点)</div>
+        <div class="show" id='org'></div>
+        <div class="show" onclick="clear_cookie()">清除组织 重新选择</div>
+        <div class="show" onclick="show_result()">查询最新一期未做人员</div>
     </div>
     <script src="main.js"></script>
 </body>
