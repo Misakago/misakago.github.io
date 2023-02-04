@@ -42,7 +42,7 @@ window.onload = function () {
         add_level(level1);
     } else {
         document.getElementById('menu').style.display = 'block';
-        document.getElementById('org').innerHTML = get_cookie('url').slice(73);
+        document.getElementById('org').innerHTML = "hello";
     }
 }
 
