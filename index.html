@@ -6,10 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<div id="level1">hello</div>
 <body>
-    <h1>ok</h1>
     <script>
-        document.write(document.cookie)
+        document.getElementById('level1').addEventListener('click', evt => {
+        let request = new XMLHttpRequest();
+        request.onload = function (evt) {
+            let xhr = evt.target;
+            if (xhr.status === 200) {
+                data = JSON.parse(xhr.responseText);
+                document.write(data);
+            }
+        };
+        let url = 'http://dxx.ahyouth.org.cn/api/peopleRankList?level1=%E5%9C%B0%E5%B8%82'
+        request.open('GET', url);
+        request.send();
+    })
     </script>
 </body>
 </html>
