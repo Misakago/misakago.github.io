@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <style>
+        table {
+            margin: 30px auto;
+            text-align: center;
+            border-collapse: collapse;
+            border: 1px solid #d4d4d4;
+        }
+
+        tr:nth-child(even) {
+            background: #d4d4d4;
+        }
+
+        th,
+        td {
+            padding: 10px 30px;
+        }
+
+        th {
+            border-bottom: 1px solid #d4d4d4;
+        }
+
+        button,
+        input,
+        select {
+            font-size: 100%;
+            height: 28px;
+        }
+    </style>
+
+    <div id="menu" style="text-align: center;">
+        CSV:&nbsp;&nbsp;&nbsp;&nbsp;<input type="file" id="file1" onchange="read_csv()">
+        <button onclick="get_info()" disabled="true" id="btn1">确定</button>
+        <div style="display: none;" id="query">
+            <hr>
+            JSON:&nbsp;&nbsp;&nbsp;&nbsp;<input type="file" id="file2" onchange="read_json()">
+            <button onclick="show_result()" disabled="true" id="btn2">查询</button>
+        </div>
+    </div>
+
+    <hr>
+    <div id="table"></table></div>
+
+    <table id="orgs"></table>
+
+    <table id="names"></table>
+
+    <script>
+        let name_col = 0
+        let org_col = 0
+        let orgs = []
+        let names = {}
+        let obj = {}
+        let all = {}
+        let now = {}
+        let not = {}
+        function read_csv() {
+            let file = document.getElementById('file1').files[0];
+            let reader = new FileReader();
+            reader.readAsText(file, 'GB2312');   //读取文本内容
+            reader.onload = function (e) {
+                csv2html(e.target.result);
+            }
+            document.getElementById('btn1').innerText = '配置'
+            document.getElementById('query').style.display = ''
+        }
+
+        function read_json() {
+            let file = document.getElementById('file2').files[0];
+            let reader = new FileReader();
+            reader.readAsText(file);   //读取文本内容
+            reader.onload = function (e) {
+                process_json(e.target.result);
+            }
+        }
+
+        function process_json(data) {
+            obj = JSON.parse(data);
+            name_col = obj.name_col;
+            org_col = obj.org_col;
+            let selects = document.getElementsByTagName('select');
+            selects[name_col].value = 'name';
+            selects[org_col].value = 'org';
+            document.getElementById('btn1').remove();
+            document.getElementById('btn2').disabled = '';
+            all = obj.names;
+            let tr = document.getElementsByTagName('tr');
+            let org = [];
+            for (key in all) {
+                org.push(key);
+                now[key] = [];
+                not[key] = [];
+            }
+            for (i = 1; i < tr.length - 1; i++) {
+                let name_org = tr[i].children[org_col].innerText;
+                if (org.indexOf(name_org) !== -1) {
+                    now[name_org].push(tr[i].children[name_col].innerText);
+                }
+            }
+            for (key in all) {
+                not[key] = subSet(all[key],now[key]);
+            }
+        }
+
+        function show_result() {
+            document.getElementById('table').remove();
+            let names_tag = document.getElementById('names');
+            let tobdy_tag = document.createElement('tbody');
+            tobdy_tag.id = 'tbody';
+            for (key in all) {
+                tobdy_tag.innerHTML += `<tr><td>${key}</td></tr>`;
+                if (not[key].length === 0){
+                    tobdy_tag.innerHTML += `<tr><td>全员完成</td></tr>`;
+                }else{
+                    for (let i = 0;i<not[key].length;i++){
+                        tobdy_tag.innerHTML += `<tr><td>${not[key][i]}</td></tr>`;
+                    }
+                }
+            }
+            names_tag.appendChild(tobdy_tag);
+            let table = document.getElementById('tbody').children;
+            let content = ''
+            for(i=0;i<table.length;i++){
+                content+=table[i].innerText+'\n'
+            }
+            download_file(content,'查询结果.txt')
+        }
+
+        function csv2html(data) {
+            let allRows = data.split(/\r?\n|\r/);
+            let table = '<table>';
+            let select = `<select id=''>
+            <option value="">null</option>
+            <option value="org">组织</option>
+            <option value="name">姓名</option>
+            </select>`
+            for (let singleRow = 0; singleRow < allRows.length; singleRow++) {
+                if (singleRow === 0) {
+                    table += '<thead>';
+                    table += '<tr>';
+                } else {
+                    table += '<tr>';
+                }
+                let rowCells = allRows[singleRow].split(',');
+                for (let rowCell = 0; rowCell < rowCells.length; rowCell++) {
+                    if (singleRow === 0) {
+                        table += '<th>';
+                        table += select;
+                        table += '</th>';
+                    } else {
+                        table += '<td>';
+                        table += rowCells[rowCell];
+                        table += '</td>';
+                    }
+                }
+                if (singleRow === 0) {
+                    table += '</tr>';
+                    table += '</thead>';
+                    table += '<tbody>';
+                } else {
+                    table += '</tr>';
+                }
+            }
+            table += '</tbody>';
+            table += '</table>';
+            table_tag = document.getElementById('table')
+            table_tag.innerHTML = table;
+            table_tag.addEventListener('change', evt => {
+                let selects = document.getElementsByTagName('select');
+                let org_num = 0;
+                let name_num = 0;
+                for (let i = 0; i < selects.length; i++) {
+                    if (selects[i].value === 'org') {
+                        org_num++;
+                    }
+                    if (selects[i].value === 'name') {
+                        name_num++;
+                    }
+                }
+                if (org_num === 1 && name_num === 1) {
+                    document.getElementById('btn1').disabled = '';
+                } else {
+                    document.getElementById('btn1').disabled = 'true';
+                }
+            });
+        }
+
+        function get_info() {
+            let selects = document.getElementsByTagName('select');
+            for (let i = 0; i < selects.length; i++) {
+                if (selects[i].value === 'org') {
+                    org_col = i;
+                }
+                if (selects[i].value === 'name') {
+                    name_col = i;
+                }
+            }
+            document.getElementById('btn1').onclick = add_names;
+            show_org();
+        }
+
+        function subSet(arr1, arr2) {
+            var set1 = new Set(arr1);
+            var set2 = new Set(arr2);
+
+            var subset = [];
+
+            for (let item of set1) {
+                if (!set2.has(item)) {
+                    subset.push(item);
+                }
+            }
+
+            return subset;
+        }
+
+        function unique(arr) {
+            return Array.from(new Set(arr))
+        }
+
+        function show_org() {
+            document.getElementById('table').style.display = 'none'
+            trs = document.getElementsByTagName('tr');
+            for (let i = 1; i < trs.length - 1; i++) {
+                orgs.push(trs[i].children[org_col].innerText)
+            }
+            orgs = unique(orgs)
+            let orgs_tag = document.getElementById('orgs');
+
+            for (let i = 0; i < orgs.length; i++) {
+                let tr_tag = document.createElement('tr');
+                tr_tag.innerHTML = `<td>${orgs[i]}</td><td><input type="checkbox" name="org" value="${orgs[i]}"></td>`;
+                orgs_tag.appendChild(tr_tag)
+            }
+
+        }
+
+        function add_names() {
+            let check_orgs = document.getElementsByName('org');
+            for (let i = 0; i < check_orgs.length; i++) {
+                if (check_orgs[i].checked === true) {
+                    let name = prompt(`请输入${check_orgs[i].value}的名单，一行一个`);
+                    names[`${check_orgs[i].value}`] = name.split(/\r?\n|\r/);
+                }
+            }
+            create_json();
+        }
+
+        function create_json() {
+            let content = {}
+            content['name_col'] = name_col;
+            content['org_col'] = org_col;
+            content['names'] = names;
+            content = JSON.stringify(content);
+            download_file(content,'conf.json');
+        }
+
+        function download_file(content,filename) {
+            let eleLink = document.createElement('a');
+            eleLink.download = filename;
+            eleLink.style.display = 'none';
+            // 字符内容转变成blob地址
+            let blob = new Blob([content]);
+            eleLink.href = URL.createObjectURL(blob);
+            // 触发点击
+            document.body.appendChild(eleLink);
+            eleLink.click();
+            // 然后移除
+            document.body.removeChild(eleLink);
+        }
+
+
+    </script>
+
+</body>
+
+</html>
