@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 文章处理脚本
-将 Markdown 文件复制到 public/articles 目录，并生成索引文件
+将 Markdown 文件从 posts 目录复制到 public/articles 目录，并生成索引文件
 """
 
 import os
@@ -14,6 +14,7 @@ from typing import List, Dict
 
 # 配置
 SOURCE_DIR = Path(__file__).parent.parent
+POSTS_DIR = SOURCE_DIR / "posts"
 OUTPUT_DIR = SOURCE_DIR / "public" / "articles"
 IMAGES_OUTPUT_DIR = SOURCE_DIR / "public" / "images"
 IMAGES_SOURCE_DIR = SOURCE_DIR / "images"
@@ -24,8 +25,11 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 def get_all_markdown_files() -> List[Path]:
     """获取所有markdown文件（排除README）"""
+    if not POSTS_DIR.exists():
+        print(f"  ⚠️  文章目录不存在: {POSTS_DIR}")
+        return []
     return sorted([
-        f for f in SOURCE_DIR.glob("*.md")
+        f for f in POSTS_DIR.glob("*.md")
         if f.name != "README.md"
     ])
 
@@ -148,6 +152,10 @@ def build_articles():
     # 获取所有markdown文件
     md_files = get_all_markdown_files()
     print(f"  📝 找到 {len(md_files)} 篇文章")
+
+    if not md_files:
+        print(f"  ⚠️  没有找到文章文件")
+        return
 
     articles = []
 
