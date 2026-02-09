@@ -6,7 +6,6 @@ __pycache__/
 .Python
 build/
 develop-eggs/
-dist/
 downloads/
 eggs/
 .eggs/
@@ -37,9 +36,18 @@ env/
 .DS_Store
 Thumbs.db
 
-# Source files (only site is pushed)
-*.md
-!README.md
+# Node.js
+node_modules/
+dist/
+dist-ssr/
+*.local
 
 # Build artifacts
-url_map.txt
+url_map.txt/
+site/
+
+# Logs
+*.log
+*.pid
+*.seed
+*.pid.lock
