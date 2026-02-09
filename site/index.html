@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页 - Misaka's Tech Blog</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background: #2c3e50;
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        header h1 { margin: 0; font-size: 2rem; }
+        header p { opacity: 0.8; margin-top: 0.5rem; }
+        nav {
+            background: #34495e;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        nav a {
+            color: #ecf0f1;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            margin: 0 0.5rem;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+        nav a:hover { background: #1abc9c; }
+        .article {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .article h1 { color: #2c3e50; margin-bottom: 1rem; font-size: 2rem; }
+        .article h2 { color: #34495e; margin: 2rem 0 1rem; font-size: 1.5rem; border-bottom: 2px solid #ecf0f1; padding-bottom: 0.5rem; }
+        .article h3 { color: #7f8c8d; margin: 1.5rem 0 0.5rem; font-size: 1.3rem; }
+        .article h4 { color: #95a5a6; margin: 1rem 0 0.5rem; font-size: 1.1rem; }
+        .article p { margin-bottom: 1rem; text-align: justify; }
+        .article ul, .article ol { margin-left: 2rem; margin-bottom: 1rem; }
+        .article li { margin-bottom: 0.5rem; }
+        .article code {
+            background: #f8f9fa;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 0.9em;
+        }
+        .article pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 1.5rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+        }
+        .article pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+        .article blockquote {
+            border-left: 4px solid #3498db;
+            padding-left: 1.5rem;
+            margin: 1.5rem 0;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        .article table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        .article table th, .article table td {
+            border: 1px solid #ddd;
+            padding: 0.75rem;
+            text-align: left;
+        }
+        .article table th { background: #34495e; color: white; }
+        .article table tr:nth-child(even) { background: #f8f9fa; }
+        .article img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin: 1.5rem 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .article a { color: #3498db; text-decoration: none; }
+        .article a:hover { text-decoration: underline; }
+        .meta {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        .index-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .index-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .index-item h2 { margin-bottom: 0.5rem; }
+        .index-item h2 a { color: #2c3e50; text-decoration: none; }
+        .index-item h2 a:hover { color: #3498db; }
+        .index-item p { color: #7f8c8d; }
+        .index-date { color: #95a5a6; font-size: 0.9rem; }
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #7f8c8d;
+            margin-top: 3rem;
+        }
+        footer a { color: #3498db; text-decoration: none; }
+        .back-link { display: inline-block; margin-bottom: 1rem; color: #3498db; text-decoration: none; }
+        .tag { display: inline-block; background: #ecf0f1; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.85rem; margin-right: 0.5rem; }
+        @media (max-width: 768px) {
+            .container { padding: 10px; }
+            .article { padding: 1.5rem; }
+            header h1 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Misaka's Tech Blog</h1>
+            <p>技术分享与实践记录</p>
+        </div>
+    </header>
+    <nav>
+        <div class="container">
+            <a href="https://misakago.github.io/">首页</a>
+            <a href="https://github.com/Misakago" target="_blank">GitHub</a>
+        </div>
+    </nav>
+    <div class="container">
+        <h1>最新文章</h1>
+
+
+        <div class="index-item">
+            <h2><a href="/计算机视觉完美提取了-假粗体-标题.html">Untitled</a></h2>
+            <p>1.  计算机视觉完美提取了“假粗体”标题</p>
+            <span class="index-date">2026-02-09</span>
+        </div>
+        
+        <div class="index-item">
+            <h2><a href="/模型吞吐性能测试-Inference-Benchmarker-实操指南.html">模型吞吐性能测试&Inference Benchmarker 实操指南</a></h2>
+            <p>11/26日更新：Inference Benchmarker过于复杂，如果只是想简单测试下关键性能指标。</p>
+            <span class="index-date">2026-02-09</span>
+        </div>
+        
+        <div class="index-item">
+            <h2><a href="/服务端口不可用排查方案.html">服务端口不可用排查方案</a></h2>
+            <p>Docker 容器能公网访问不等于宿主机进程能公网访问，因为 Docker 绕过 UFW，而宿主机服务受 UFW 和 iptables INPUT 链控制。</p>
+            <span class="index-date">2026-02-09</span>
+        </div>
+        
+        <div class="index-item">
+            <h2><a href="/一种Markdown转Word的Pipeline.html">一种Markdown转Word的Pipeline</a></h2>
+            <p>- AI友好：可让AI生成Markdown，再转为Word，避免直接操作Word</p>
+            <span class="index-date">2026-02-09</span>
+        </div>
+        
+        <div class="index-item">
+            <h2><a href="/SSH-动态端口转发实践.html">SSH 动态端口转发实践</a></h2>
+            <p>bash</p>
+            <span class="index-date">2026-02-09</span>
+        </div>
+        
+        <div class="index-item">
+            <h2><a href="/Paddle-OCR-VL-PaddleX本地部署参考方案.html">Paddle OCR VL+PaddleX本地部署参考方案</a></h2>
+            <p>- Docker CE：最新release版本</p>
+            <span class="index-date">2026-02-09</span>
+        </div>
+        
+        <div class="index-item">
+            <h2><a href="/Keycloak-非标准-Token-SSO-向-OIDC-LDAP-登录实验.html">Keycloak 非标准 Token SSO 向 OIDC/LDAP 登录实验</a></h2>
+            <p>Keycloak 可作为支持 SAML 和 OIDC 的身份提供商（IdP）。若客户方可以提供标准的OIDC SSO则可以不用Keycloak，直接对接即可。</p>
+            <span class="index-date">2026-02-09</span>
+        </div>
+        
+    </div>
+    <footer>
+        <p>&copy; 2026 Misaka. Powered by <a href="https://pages.github.com/">GitHub Pages</a></p>
+        <p><a href="https://github.com/Misakago">https://github.com/Misakago</a></p>
+    </footer>
+</body>
+</html>

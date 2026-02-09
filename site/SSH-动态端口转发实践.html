@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSH 动态端口转发实践 - Misaka's Tech Blog</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background: #2c3e50;
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        header h1 { margin: 0; font-size: 2rem; }
+        header p { opacity: 0.8; margin-top: 0.5rem; }
+        nav {
+            background: #34495e;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        nav a {
+            color: #ecf0f1;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            margin: 0 0.5rem;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+        nav a:hover { background: #1abc9c; }
+        .article {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .article h1 { color: #2c3e50; margin-bottom: 1rem; font-size: 2rem; }
+        .article h2 { color: #34495e; margin: 2rem 0 1rem; font-size: 1.5rem; border-bottom: 2px solid #ecf0f1; padding-bottom: 0.5rem; }
+        .article h3 { color: #7f8c8d; margin: 1.5rem 0 0.5rem; font-size: 1.3rem; }
+        .article h4 { color: #95a5a6; margin: 1rem 0 0.5rem; font-size: 1.1rem; }
+        .article p { margin-bottom: 1rem; text-align: justify; }
+        .article ul, .article ol { margin-left: 2rem; margin-bottom: 1rem; }
+        .article li { margin-bottom: 0.5rem; }
+        .article code {
+            background: #f8f9fa;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 0.9em;
+        }
+        .article pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 1.5rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+        }
+        .article pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+        .article blockquote {
+            border-left: 4px solid #3498db;
+            padding-left: 1.5rem;
+            margin: 1.5rem 0;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        .article table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        .article table th, .article table td {
+            border: 1px solid #ddd;
+            padding: 0.75rem;
+            text-align: left;
+        }
+        .article table th { background: #34495e; color: white; }
+        .article table tr:nth-child(even) { background: #f8f9fa; }
+        .article img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin: 1.5rem 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .article a { color: #3498db; text-decoration: none; }
+        .article a:hover { text-decoration: underline; }
+        .meta {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        .index-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .index-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .index-item h2 { margin-bottom: 0.5rem; }
+        .index-item h2 a { color: #2c3e50; text-decoration: none; }
+        .index-item h2 a:hover { color: #3498db; }
+        .index-item p { color: #7f8c8d; }
+        .index-date { color: #95a5a6; font-size: 0.9rem; }
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #7f8c8d;
+            margin-top: 3rem;
+        }
+        footer a { color: #3498db; text-decoration: none; }
+        .back-link { display: inline-block; margin-bottom: 1rem; color: #3498db; text-decoration: none; }
+        .tag { display: inline-block; background: #ecf0f1; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.85rem; margin-right: 0.5rem; }
+        @media (max-width: 768px) {
+            .container { padding: 10px; }
+            .article { padding: 1.5rem; }
+            header h1 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Misaka's Tech Blog</h1>
+            <p>技术分享与实践记录</p>
+        </div>
+    </header>
+    <nav>
+        <div class="container">
+            <a href="https://misakago.github.io/">首页</a>
+            <a href="https://github.com/Misakago" target="_blank">GitHub</a>
+        </div>
+    </nav>
+    <div class="container">
+        
+        <a href="/" class="back-link">← 返回首页</a>
+        <article class="article">
+            <h1>SSH 动态端口转发实践</h1>
+            <div class="meta">发布于 2026-02-09</div>
+            <h1>SSH 动态端口转发实践</h1>
+<br>
+<h2>SSH端口转发模式</h2>
+<br>
+<pre><code class="language-bash"># 1. 动态转发（SOCKS 代理）
+ssh -D [本地端口] user@host
+
+# 2. 本地转发（本地 → 远程 → 目标）
+ssh -L [本地端口]:[目标主机]:[目标端口] user@跳板机
+
+# 3. 远程转发（远程 ← 本地 ← 目标）
+ssh -R [远程端口]:[目标主机]:[目标端口] user@跳板机</code></pre>
+<br>
+<h2>动态端口转发-D的典型场景</h2>
+<br>
+<p>客户方对接口对IP有限制，非白名单的IP无法访问接口</p>
+<br>
+<p>解决思路：通过设置SSH动态端口转发实现IP代理，从而本地实现接口调试</p>
+<br>
+<h2>SOCKS5和SOCKS5H的区别</h2>
+<br>
+<ul>
+<li><strong>SOCKS5</strong>：使用本机的DNS解析再通过代理服务器</li>
+<li><strong>SOCKS5H</strong>：使用代理服务器的DNS解析</li>
+</ol>
+<br>
+<p>如果发现SOCKS5无法实现代理，请直接尝试SOCKS5H，基本上就能解决，如无特殊需求，推荐默认使用SOCKS5H，避免DNS问题。</p>
+<br>
+<p>相关命令：</p>
+<br>
+<pre><code class="language-bash"># 使用 SOCKS5H 代理（强制远程 DNS 解析）返回代理服务器 IP
+curl --socks5-hostname 127.0.0.1:1080 http://httpbin.org/ip</code></pre>
+<br>
+<blockquote>**注意：** ApiFox和Bruno目前不支持配置SOCKS5H代理，Postman支持。推荐使用Postman进行SOCKS5H代理测试。</blockquote>
+<br>
+<img src="/images/img_9_MzgyN2QwZDcxZjU.png" alt="Postman SOCKS5H配置">
+<br>
+<img src="/images/img_29_YWZkOWNhYzE5NDk.png" alt="验证代理IP">
+<br>
+<p>如果经常要用SSH端口转发，推荐使用termius</p>
+<br>
+<img src="/images/img_31_ZDBiZmUwMDc4MzY.png" alt="Termius配置">
+<br>
+<h2>万物皆可over ssh</h2>
+<br>
+<p>前提是放开TCP转发等SSH配置，启用完整SSH功能。</p>
+<br>
+<p>为保障公网服务器安全，应遵循最小开放原则：</p>
+<br>
+<ul>
+<li>仅对外暴露必要端口：<strong>SSH（如 22）</strong> 和 <strong>网站服务端口（如 80/443）</strong>。</li>
+<li><strong>数据库、缓存等内部服务禁止直接监听公网</strong>，可通过 <strong>SSH 隧道（端口转发）</strong> 安全访问，例如：</li>
+</ol>
+<p>- <code>ssh -L 5432:localhost:5432 user@server</code></p>
+<br>
+<img src="/images/img_34_ZmM0ZGY2NDkwMGY.jpg" alt="SSH隧道示意图">
+<br>
+<ul>
+<li><strong>禁用 SSH 密码登录</strong>，强制使用 <strong>密钥认证</strong>（<code>PasswordAuthentication no</code> in <code>sshd_config</code>）。</li>
+<li>为私钥添加 <strong>强密码加密</strong>，并配合 <strong>SSH Agent</strong> 缓存解密后的密钥，兼顾安全与便利：</li>
+</ol>
+<p>- <code>ssh-keygen -t ed25519 -C "comment"  # 生成带密码的密钥</code></p>
+<p>- <code>eval $(ssh-agent)</code></p>
+<p>- <code>ssh-add ~/.ssh/id_ed25519</code></p>
+<br>
+<p>此方案确保：攻击面最小、传输全程加密、身份验证强健。</p>
+<br>
+        </article>
+    
+    </div>
+    <footer>
+        <p>&copy; 2026 Misaka. Powered by <a href="https://pages.github.com/">GitHub Pages</a></p>
+        <p><a href="https://github.com/Misakago">https://github.com/Misakago</a></p>
+    </footer>
+</body>
+</html>
