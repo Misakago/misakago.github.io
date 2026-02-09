@@ -1,49 +1,49 @@
 [
   {
     "title": "Keycloak 非标准 Token SSO 向 OIDC/LDAP 登录实验",
-    "slug": "Keycloak-非标准-Token-SSO-向-OIDC-LDAP-登录实验",
+    "slug": "keycloak-nonstandard-token-sso-to-oidc-ldap",
     "description": "Keycloak 可作为支持 SAML 和 OIDC 的身份提供商（IdP）。若客户方可以提供标准的OIDC SSO则可以不用Keycloak，直接对接即可。",
     "date": "2026-02-09",
     "filename": "Keycloak 非标准 Token SSO 向 OIDC:LDAP 登录实验.md"
   },
   {
     "title": "Paddle OCR VL+PaddleX本地部署参考方案",
-    "slug": "Paddle-OCR-VL-PaddleX本地部署参考方案",
+    "slug": "paddle-ocr-vl-paddlex-local-deployment",
     "description": "Docker CE：最新release版本",
     "date": "2026-02-09",
     "filename": "Paddle OCR VL+PaddleX本地部署参考方案.md"
   },
   {
     "title": "SSH 动态端口转发实践",
-    "slug": "SSH-动态端口转发实践",
+    "slug": "ssh-dynamic-port-forwarding",
     "description": "bash",
     "date": "2026-02-09",
     "filename": "SSH 动态端口转发实践.md"
   },
   {
     "title": "一种Markdown转Word的Pipeline",
-    "slug": "一种Markdown转Word的Pipeline",
+    "slug": "markdown-to-word-pipeline",
     "description": "AI友好：可让AI生成Markdown，再转为Word，避免直接操作Word",
     "date": "2026-02-09",
     "filename": "一种Markdown转Word的Pipeline.md"
   },
   {
     "title": "服务端口不可用排查方案",
-    "slug": "服务端口不可用排查方案",
+    "slug": "port-unavailability-troubleshooting",
     "description": "Docker 容器能公网访问不等于宿主机进程能公网访问，因为 Docker 绕过 UFW，而宿主机服务受 UFW 和 iptables INPUT 链控制。",
     "date": "2026-02-09",
     "filename": "服务端口不可用排查方案.md"
   },
   {
     "title": "模型吞吐性能测试&Inference Benchmarker 实操指南",
-    "slug": "模型吞吐性能测试-Inference-Benchmarker-实操指南",
+    "slug": "model-throughput-testing-inference-benchmarker",
     "description": "11/26日更新：Inference Benchmarker过于复杂，如果只是想简单测试下关键性能指标。",
     "date": "2026-02-09",
     "filename": "模型吞吐性能测试&Inference Benchmarker 实操指南.md"
   },
   {
     "title": "计算机视觉完美提取了“假粗体”标题",
-    "slug": "计算机视觉完美提取了-假粗体-标题",
+    "slug": "cv-extract-fake-bold-titles",
     "description": "最近接到一个看似简单的需求文档完整性校验：从一份 PDF 文档中自动提取所有章节标题。",
     "date": "2026-02-09",
     "filename": "计算机视觉完美提取了“假粗体”标题.md"

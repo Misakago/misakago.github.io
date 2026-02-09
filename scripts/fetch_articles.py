@@ -19,6 +19,18 @@ OUTPUT_DIR = SOURCE_DIR / "public" / "articles"
 IMAGES_OUTPUT_DIR = SOURCE_DIR / "public" / "images"
 IMAGES_SOURCE_DIR = SOURCE_DIR / "images"
 
+# 英文 slug 映射表（关键词 -> 英文 slug）
+# 通过文件名关键词匹配，避免中文引号问题
+SLUG_KEYWORDS = {
+    "Keycloak": "keycloak-nonstandard-token-sso-to-oidc-ldap",
+    "Paddle": "paddle-ocr-vl-paddlex-local-deployment",
+    "SSH": "ssh-dynamic-port-forwarding",
+    "Markdown转Word": "markdown-to-word-pipeline",
+    "端口不可用": "port-unavailability-troubleshooting",
+    "吞吐性能": "model-throughput-testing-inference-benchmarker",
+    "计算机视觉": "cv-extract-fake-bold-titles",
+}
+
 # 确保输出目录存在
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -88,10 +100,14 @@ def extract_description(content: str) -> str:
 
 
 def get_file_slug(filename: str) -> str:
-    """从文件名生成URL友好的slug"""
-    # 移除.md扩展名
+    """从文件名获取英文 slug"""
+    # 通过关键词匹配
+    for keyword, slug in SLUG_KEYWORDS.items():
+        if keyword in filename:
+            return slug
+
+    # 如果没有匹配，使用 URL 友好的中文
     name = filename.replace('.md', '')
-    # 移除特殊字符，保留中文、字母、数字和连字符
     slug = re.sub(r'[^\w\u4e00-\u9fff\-]', '-', name)
     slug = re.sub(r'-+', '-', slug)
     slug = slug.strip('-')

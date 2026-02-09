@@ -96,13 +96,13 @@ services:
 
 **创建新的realm（域）**
 
-![创建realm](images/img_13_NmRlZGU2YTMwZDJ.png)
+![创建realm](/images/img_13_NmRlZGU2YTMwZDJ.png)
 
 **在test-realm中创建测试用户**
 
-![创建用户](images/img_18_ODk1YTdmYmRhNjY.png)
+![创建用户](/images/img_18_ODk1YTdmYmRhNjY.png)
 
-![用户详情](images/img_1_M2E1NzBjMzFlNTE.png)
+![用户详情](/images/img_1_M2E1NzBjMzFlNTE.png)
 
 #### Keycloak将Postman注册为OIDC Client
 
@@ -134,15 +134,15 @@ services:
 
 **Part 3：配置示例**
 
-![Postman配置1](images/img_32_ZDYwNWFkMWU5YWI.png)
+![Postman配置1](/images/img_32_ZDYwNWFkMWU5YWI.png)
 
-![Postman配置2](images/img_8_MWYzYmE0ZThiNmQ.png)
+![Postman配置2](/images/img_8_MWYzYmE0ZThiNmQ.png)
 
 #### Postman发起OIDC认证
 
 **在Postman中点击"Get New Access Token"按钮，输入测试用户凭证**
 
-![获取token](images/img_17_ODgzYmQyNTEyZDI.png)
+![获取token](/images/img_17_ODgzYmQyNTEyZDI.png)
 
 ```json
 {

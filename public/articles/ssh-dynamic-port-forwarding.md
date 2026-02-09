@@ -53,7 +53,7 @@ curl --socks5-hostname 127.0.0.1:1080 http://httpbin.org/ip
 - **数据库、缓存等内部服务禁止直接监听公网**，可通过 **SSH 隧道（端口转发）** 安全访问，例如：
   - `ssh -L 5432:localhost:5432 user@server`
 
-![SSH隧道示意图](/images/img_34_ZmM0ZGY2NDkwMGY.jpg)
+
 
 - **禁用 SSH 密码登录**，强制使用 **密钥认证**（`PasswordAuthentication no` in `sshd_config`）。
 - 为私钥添加 **强密码加密**，并配合 **SSH Agent** 缓存解密后的密钥，兼顾安全与便利：
